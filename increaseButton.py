@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QSizePol
 
 class buttonWindow(QWidget):
     def __init__(self):
-        super().__init__()
+        super().__init__() # allows you at access parent class 
         self.createUI() # calls the UI function (see below)
 
     def createUI(self):
@@ -40,7 +40,7 @@ class buttonWindow(QWidget):
         self.currentNumber = 0
         self.numberCount.setNum(self.currentNumber)
         self.numberCount.move(95, 100)
-        self.numberCount.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum) # trying to get two numbers to show when the list hits 10 +
+        #self.numberCount.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum) # trying to get two numbers to show when the list hits 10 +
 
     def buttonClicked(self):
         
@@ -48,6 +48,7 @@ class buttonWindow(QWidget):
 
         if self.button.isCheckable():
             self.numberCount.setNum(self.currentNumber)
+            self.numberCount.adjustSize() # fixes the size of the Qlable so double digits aren't cut off
   
 
 app = QApplication(sys.argv)
