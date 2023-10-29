@@ -1,5 +1,5 @@
 import sys
-from os import listdir
+import os
 from os.path import isfile, join
 from PyQt5.QtWidgets import (QApplication,
                              QWidget,
@@ -17,7 +17,6 @@ from PyQt5.QtCore import(Qt,
 from PyQt5.QtGui import (QFont,
                          QFontDatabase)
 
-katanaInstalls = listdir('C:\Program Files\Foundry')
 
 class katanaLauncher(QWidget):
     def __init__(self):
@@ -80,8 +79,29 @@ class katanaLauncher(QWidget):
         self.setLayout(layout)
     
     def checkInstallsClicked(self):
+        '''
+        realised that there are nuke/modo/mari installs in my directory because 
+        fninstall puts everything in there. This makes sure that ONLY the katana
+        installs are being picked up and added to the combo box/dropdown menu.
+        '''
+        
+        checkDirectory = os.listdir('C:\Program Files\Foundry')
+        prefix = 'Katana'
+
+        katanaInstalls = []
+
+        for k in checkDirectory:
+            if k.startswith(prefix):
+                katanaInstalls.append(k)
+            else:
+                continue
+  
+        '''
+        takes the result of the above loop and adds them to the combobox
+        '''
         if self.checkInstalls.isCheckable():
-            self.installsDropdown.addItems(katanaInstalls) # when the check for installs button is pressed, populate the combo box
+            self.installsDropdown.addItems(katanaInstalls)
+
 
     def launchSelection(self):
         if self.launchKatana.isCheckable():
