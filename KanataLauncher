@@ -1,0 +1,4 @@
+# open
+# press button -> print the list of available Katana installs
+# create a dropdown with all the available builds
+# click a button, and the version selected in the dropdown is launched
