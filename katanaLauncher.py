@@ -68,9 +68,9 @@ class katanaLauncher(QWidget):
         adding all of the above to the QGrid layout. The numbers after the widget
         indicate the row/column that each widget will be placed in.
         '''
-        layout.addWidget(self.checkInstalls, 0, 2)
-        layout.addWidget(self.installsDropdown, 1, 2)
-        layout.addWidget(self.launchKatana, 1, 3)
+        layout.addWidget(self.checkInstalls, 0, 1)
+        layout.addWidget(self.installsDropdown, 1, 1, 2, 3)
+        layout.addWidget(self.launchKatana, 2, 3)
 
         '''
         packing all of the UI elements into the main window and then laying them 
