@@ -1,5 +1,6 @@
 import os
 from os.path import isfile, join
+import subprocess
 
 '''
 Making sure that only Katana installs are being detected in the
@@ -17,6 +18,20 @@ for k in checkDirectory:
     else:
         continue
 print(katanaInstalls)
+
+
+katanaInstall = 'Katana6.0v2'
+
+for launch in katanaInstall:
+    launchDir = os.path.join('C:\Program Files', katanaInstall, "bin")
+    insideBin = os.listdir(launchDir)
+    
+    if os.path.isfile('katanaBin.exe'):
+        subprocess.run()
+    else:
+        continue
+
 '''
 
+subprocess.call(['C:\\Program Files\\Katana6.0v2\\bin\\katanaBin.exe'])
 

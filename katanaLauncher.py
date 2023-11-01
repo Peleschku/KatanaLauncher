@@ -1,6 +1,7 @@
 import sys
 import os
 from os.path import isfile, join
+import subprocess
 from PyQt5.QtWidgets import (QApplication,
                              QWidget,
                              QLabel,
@@ -88,11 +89,11 @@ class katanaLauncher(QWidget):
         checkDirectory = os.listdir('C:\Program Files\Foundry')
         prefix = 'Katana'
 
-        katanaInstalls = []
+        self.katanaInstalls = []
 
         for k in checkDirectory:
             if k.startswith(prefix):
-                katanaInstalls.append(k)
+                self.katanaInstalls.append(k)
             else:
                 continue
   
@@ -100,12 +101,15 @@ class katanaLauncher(QWidget):
         takes the result of the above loop and adds them to the combobox
         '''
         if self.checkInstalls.isCheckable():
-            self.installsDropdown.addItems(katanaInstalls)
+            self.installsDropdown.addItems(self.katanaInstalls)
 
 
     def launchSelection(self):
+        
+        launchKatana = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), 'bin\\katanaBin.exe')
+        
         if self.launchKatana.isCheckable():
-            print(self.installsDropdown.currentText()) # .currrentText grabs the selected text in the dropdown
+            subprocess.run(launchKatana)
 
 
         
