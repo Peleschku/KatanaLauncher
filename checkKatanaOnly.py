@@ -33,5 +33,11 @@ for launch in katanaInstall:
 
 '''
 
-subprocess.call(['C:\\Program Files\\Katana6.0v2\\bin\\katanaBin.exe'])
+katanaInstall = 'Katana6.0v2'
+delightPath = os.path.join('C:\\Program Files\\Foundry', katanaInstall, '3Delight')
+print(delightPath)
 
+myEnvironment["DEFAULT_RENDERER"] = 'dl'
+myEnvironment["DELIGHT"] = 'C:/Program Files/3Delight'
+myEnvironment["PATH"] += f';{myEnvironment["DELIGHT"]}/bin'
+myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'

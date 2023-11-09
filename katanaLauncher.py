@@ -108,8 +108,28 @@ class katanaLauncher(QWidget):
         
         launchKatana = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), 'bin\\katanaBin.exe')
         
+        # creates a copy of system environment variables
+        myEnvironment = os.environ.copy()
+
+        #creates path and katana_resources if neither exists in the system's environment variables
+        if "KATANA_RESOURCES" not in myEnvironment:
+            myEnvironment["KATANA_RESOURCES"] = ""
+        if "PATH" not in myEnvironment:
+            myEnvironment["PATH"]
+    
+        # same setup as writing a launcher script to load in render plugins
+        myEnvironment["KATANA_ROOT"] = os.path.join('C:\\Program File\\Foundry', self.installsDropdown.currentText())
+        myEnvironment["DEFAULT_RENDERER"] = 'dl'
+        myEnvironment["DELIGHT"] = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), '3Delight')
+        
+        # += takes everything that's already in a variable and adds it to the end of the variable
+        myEnvironment["PATH"] += f'{myEnvironment["DELIGHT"]}/bin'
+        myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
+
+
+        
         if self.launchKatana.isCheckable():
-            subprocess.run(launchKatana)
+            subprocess.Popen(launchKatana, env=myEnvironment)
 
 
         
