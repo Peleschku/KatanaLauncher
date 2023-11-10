@@ -10,15 +10,7 @@ from PyQt5.QtGui import (QFont,
                          QFontDatabase)
 
 
-# creates a copy of system environment variables
-myEnvironment = os.environ.copy()
 
-#creates path and katana_resources if neither exists in the system's environment variables
-if "KATANA_RESOURCES" not in myEnvironment:
-    myEnvironment["KATANA_RESOURCES"] = ""
-
-if "PATH" not in myEnvironment:
-    myEnvironment["PATH"]
 
 class katanaLauncher(QWidget):
     def __init__(self):
@@ -61,7 +53,7 @@ class katanaLauncher(QWidget):
 
         self.useDelight = QCheckBox('Launch with 3Delight', self)
         self.useDelight.setGeometry(170, 140, 81, 20)
-        self.useDelight.stateChanged.connect(self.loadDl)
+        #self.useDelight.stateChanged.connect(self.loadDl)
         
         '''
         making the combox that will list all of the currently installed versions
@@ -126,22 +118,25 @@ class katanaLauncher(QWidget):
 
     def loadRenderman(self, checked):
         if checked:
-            print('Loaded!')
+            self.useArnold.setChecked(False)
+            self.useArnold.setEnabled(False)
         else:
-            print('not loaded!')
+            self.useArnold.setEnabled(True)
     
     def loadArnold(self, checked):
         if checked:
-            print('Loaded!')
+            self.useRenderman.setChecked(False)
+            self.useRenderman.setEnabled(False)
         else:
-            print('not loaded!')
+            self.useRenderman.setEnabled(True)
     
+    '''
     def loadDl(self, checked):
-        '''
+        
         my incredibly naive attempt at getting 3DL to load when the checkbox is checked. I suspect i need to do something
         in the function that actually launches Katana where it looks at all the check boxes and if any of them are checked,
         katana launches with all the correct environment variables.
-        '''
+        
         if checked:
             myEnvironment["KATANA_ROOT"] = os.path.join('C:\\Program File\\Foundry', self.installsDropdown.currentText())
             myEnvironment["DEFAULT_RENDERER"] = 'dl'
@@ -152,23 +147,35 @@ class katanaLauncher(QWidget):
             myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
         else:
             print('not done yet :sad:')
-            
+        '''
 
         
     def launchSelection(self):
         
         launchKatana = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), 'bin\\katanaBin.exe')
+        myEnvironment = os.environ.copy()
 
+        #creates path and katana_resources if neither exists in the system's environment variables
+        if "KATANA_RESOURCES" not in myEnvironment:
+            myEnvironment["KATANA_RESOURCES"] = ""
+
+        if "PATH" not in myEnvironment:
+            myEnvironment["PATH"]
         myEnvironment["KATANA_ROOT"] = os.path.join('C:\\Program File\\Foundry', self.installsDropdown.currentText())
-        myEnvironment["DEFAULT_RENDERER"] = 'dl'
-        myEnvironment["DELIGHT"] = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), '3Delight')
-        
-        # += takes everything that's already in a variable and adds it to the end of the variable
-        myEnvironment["PATH"] += f'{myEnvironment["DELIGHT"]}/bin'
-        myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
+
     
-        if self.launchKatana.isCheckable(loadDl):
-            subprocess.Popen(launchKatana, env=myEnvironment)
+        if self.useDelight.isChecked():
+        
+            myEnvironment["DEFAULT_RENDERER"] = 'dl'
+            myEnvironment["DELIGHT"] = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), '3Delight')
+        
+            # += takes everything that's already in a variable and adds it to the end of the variable
+            myEnvironment["PATH"] += f'{myEnvironment["DELIGHT"]}/bin'
+            myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
+            print('load DL')
+
+    
+        subprocess.Popen(launchKatana, env=myEnvironment)
 
 
         
