@@ -19,7 +19,7 @@ class katanaLauncher(QWidget):
     
     def createWindow(self):
         
-        self.setGeometry(250, 250, 350, 300)
+        self.setGeometry(150, 250, 250, 300)
         self.setWindowTitle('Launch Katana')
         
         self.populateUI()
@@ -28,6 +28,119 @@ class katanaLauncher(QWidget):
     def populateUI(self):
 
         layout = QGridLayout()
+        arnoldLayout = QVBoxLayout()
+        prmanLayout = QGridLayout()
+
+        '''
+        tabs that allow you to set your versions of Arnold and Renderman
+        as well as the version of Katana that's going to be used with them
+        '''
+
+        self.tabs = QTabWidget()
+    
+         
+        '''
+        creating and setting up the arnold tab
+        '''
+        self.arnoldTab = QWidget()
+        
+        self.checkArnoldVersion = QPushButton('Check for KtoA Versions', self.tabs)
+        self.checkArnoldVersion.setCheckable(True)
+        self.checkArnoldVersion.clicked.connect(self.displayArnoldTypes)
+        
+        self.specifyArnoldVersion = QComboBox(self.tabs)
+
+        self.whatKatanaTextArnold = QLabel('What version of Katana are you using?', self.tabs)
+        
+        self.selectKatanaVerArnold = QComboBox()
+        self.katanaVersionsArnold = ['Katana 2.5',
+                          'Katana 2.6',
+                          'Katana 3.0',
+                          'Katana 3.1',
+                          'Katana 3.2',
+                          'Katana 3.5',
+                          'Katana 3.6',
+                          'Katana 4.0',
+                          'Katana 4.5',
+                          'Katana 5.0',
+                          'Katana 6.0',
+                          'Katana 6.5',
+                          'Katana 7.0']
+        
+        self.selectKatanaVerArnold.addItems(self.katanaVersionsArnold)
+
+        arnoldLayout.addWidget(self.checkArnoldVersion)
+        arnoldLayout.addWidget(self.specifyArnoldVersion)
+        arnoldLayout.addWidget(self.whatKatanaTextArnold)
+        arnoldLayout.addWidget(self.selectKatanaVerArnold)
+
+        self.arnoldTab.setLayout(arnoldLayout)
+
+    
+        '''
+        creating and setting up the prman tab
+        '''
+        self.prmanTab = QWidget()
+        self.selectPrmanVer = QLabel('Select PRman Version')
+        self.selectProserverVer = QLabel('Select Proserver Version')
+        self.prmanVerDropdown = QComboBox()
+        
+        checkPrman = os.listdir('C:\Program Files\Pixar')
+        prefixPrman = 'RenderManForKatana'
+        prefixProsever = 'RenderManProServer'
+
+        self.prmanVersionsList = []
+        self.proserverList = []
+
+        for version in checkPrman:
+            if version.startswith(prefixPrman):
+                self.prmanVersionsList.append(version)
+            else:
+                if version.startswith(prefixProsever):
+                    self.proserverList.append(version)
+        
+        
+        self.prmanVerDropdown.addItems(self.prmanVersionsList)
+        self.proserverDropdown = QComboBox()
+        self.proserverDropdown.addItems(self.proserverList)
+
+        self.whatKatanaTextPrman = QLabel('What version of Katana are you using?', self.tabs)
+        
+        self.selectKatanaVerPrman = QComboBox()
+        self.katanaVersionsPrman = ['Katana 2.5',
+                          'Katana 2.6',
+                          'Katana 3.0',
+                          'Katana 3.1',
+                          'Katana 3.2',
+                          'Katana 3.5',
+                          'Katana 3.6',
+                          'Katana 4.0',
+                          'Katana 4.5',
+                          'Katana 5.0',
+                          'Katana 6.0',
+                          'Katana 6.5',
+                          'Katana 7.0']
+        
+        self.selectKatanaVerPrman.addItems(self.katanaVersionsPrman)
+
+
+
+        prmanLayout.addWidget(self.selectPrmanVer, 0,0)
+        prmanLayout.addWidget(self.selectProserverVer, 0,1)
+        prmanLayout.addWidget(self.prmanVerDropdown, 1,0)
+        prmanLayout.addWidget(self.proserverDropdown, 1,1)
+        prmanLayout.addWidget(self.whatKatanaTextPrman, 2, 0, 1 , 2)
+        prmanLayout.addWidget(self.selectKatanaVerPrman, 3, 0, 1, 2)
+
+        self.prmanTab.setLayout(prmanLayout)
+
+        
+        '''
+        adding the arnold and renderman tabs to the overall tab box
+        '''
+        self.tabs.addTab(self.arnoldTab, 'Arnold')
+        self.tabs.addTab(self.prmanTab, 'Renderman')
+
 
         '''
         Creating the button that's clicked to check to see what version of 
@@ -37,6 +150,22 @@ class katanaLauncher(QWidget):
         self.checkInstalls = QPushButton('Check for Katana Installs', self)
         self.checkInstalls.setCheckable(True)
         self.checkInstalls.clicked.connect(self.checkInstallsClicked)
+
+        '''
+        dropdown that lists all the individual versions of Katana that are installed
+        in a specific file driectory.
+        '''
+        self.installsDropdown = QComboBox()
+        
+        
+        '''
+        creating the button that launches the version of Katana that was selected
+        from the list in the combo box.
+
+        '''        
+        self.launchKatana = QPushButton('Launch Katana', self)
+        self.launchKatana.setCheckable(True)
+        self.launchKatana.clicked.connect(self.launchSelection)
 
         '''
         checkboxes where you can specify what renderer to launch Katana
@@ -53,36 +182,19 @@ class katanaLauncher(QWidget):
 
         self.useDelight = QCheckBox('Launch with 3Delight', self)
         self.useDelight.setGeometry(170, 140, 81, 20)
-        #self.useDelight.stateChanged.connect(self.loadDl)
         
-        '''
-        making the combox that will list all of the currently installed versions
-        of Katana when the above button is pressed.
-
-        '''
-        self.installsDropdown = QComboBox()
-        
-        
-        '''
-        creating the button that launches the version of Katana that was selected
-        from the list in the combo box.
-
-        '''        
-        self.launchKatana = QPushButton('Launch Katana', self)
-        self.launchKatana.setCheckable(True)
-        self.launchKatana.clicked.connect(self.launchSelection)
-
         
         '''
         adding all of the above to the QGrid layout. The numbers after the widget
         indicate the row/column that each widget will be placed in.
         '''
-        layout.addWidget(self.checkInstalls, 0, 1)
-        layout.addWidget(self.installsDropdown, 1, 1, 2, 3)
-        layout.addWidget(self.useRenderman, 2,1)
-        layout.addWidget(self.useArnold, 2,2)
-        layout.addWidget(self.useDelight, 2,3)
-        layout.addWidget(self.launchKatana, 3, 3)
+        layout.addWidget(self.tabs, 0, 0, 1, 3)
+        layout.addWidget(self.checkInstalls, 1, 0, 1, 3)
+        layout.addWidget(self.installsDropdown, 2, 0, 1, 3)
+        layout.addWidget(self.useRenderman, 3,0)
+        layout.addWidget(self.useArnold, 3,1)
+        layout.addWidget(self.useDelight, 3,2)
+        layout.addWidget(self.launchKatana, 4, 0, 1, 3)
 
         '''
         packing all of the UI elements into the main window and then laying them 
@@ -115,6 +227,24 @@ class katanaLauncher(QWidget):
         if self.checkInstalls.isCheckable():
             self.installsDropdown.addItems(self.katanaInstalls)
 
+    def displayArnoldTypes(self):
+        checkArnold = os.listdir('C:\\Users\\AdelePeleschka\\ktoa')
+
+        if self.checkArnoldVersion.isCheckable():
+            self.specifyArnoldVersion.addItems(checkArnold)
+
+    
+    def proserverVersions(self):
+        checkDirectory = os.listdir('C:\Program Files\Pixar')
+        prefix = 'RenderManProServer'
+
+        self.proserverVersionsList = []
+
+        for v in checkDirectory:
+            if v.startswith(prefix):
+                self.proserverVersionsList.append(v)
+            else:
+                continue
 
     def loadRenderman(self, checked):
         if checked:
@@ -129,25 +259,6 @@ class katanaLauncher(QWidget):
             self.useRenderman.setEnabled(False)
         else:
             self.useRenderman.setEnabled(True)
-    
-    '''
-    def loadDl(self, checked):
-        
-        my incredibly naive attempt at getting 3DL to load when the checkbox is checked. I suspect i need to do something
-        in the function that actually launches Katana where it looks at all the check boxes and if any of them are checked,
-        katana launches with all the correct environment variables.
-        
-        if checked:
-            myEnvironment["KATANA_ROOT"] = os.path.join('C:\\Program File\\Foundry', self.installsDropdown.currentText())
-            myEnvironment["DEFAULT_RENDERER"] = 'dl'
-            myEnvironment["DELIGHT"] = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), '3Delight')
-        
-        # += takes everything that's already in a variable and adds it to the end of the variable
-            myEnvironment["PATH"] += f'{myEnvironment["DELIGHT"]}/bin'
-            myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
-        else:
-            print('not done yet :sad:')
-        '''
 
         
     def launchSelection(self):

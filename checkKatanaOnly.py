@@ -33,6 +33,7 @@ for launch in katanaInstall:
 
 '''
 
+'''
 katanaInstall = 'Katana6.0v2'
 delightPath = os.path.join('C:\\Program Files\\Foundry', katanaInstall, '3Delight')
 print(delightPath)
@@ -41,3 +42,24 @@ myEnvironment["DEFAULT_RENDERER"] = 'dl'
 myEnvironment["DELIGHT"] = 'C:/Program Files/3Delight'
 myEnvironment["PATH"] += f';{myEnvironment["DELIGHT"]}/bin'
 myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
+
+checkArnold = os.listdir('C:\\Users\\AdelePeleschka\\ktoa')
+print(checkArnold)
+'''
+
+checkPrman = os.listdir('C:\Program Files\Pixar')
+prefixPrman = 'RenderManForKatana'
+prefixProsever = 'RenderManProServer'
+
+prmanVersionsList = []
+proserverList = []
+
+for version in checkPrman:
+    if version.startswith(prefixPrman):
+        prmanVersionsList.append(version)
+    else:
+        if version.startswith(prefixProsever):
+            proserverList.append(version)
+
+print(checkPrman)
+print(proserverList)
