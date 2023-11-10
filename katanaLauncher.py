@@ -10,6 +10,16 @@ from PyQt5.QtGui import (QFont,
                          QFontDatabase)
 
 
+# creates a copy of system environment variables
+myEnvironment = os.environ.copy()
+
+#creates path and katana_resources if neither exists in the system's environment variables
+if "KATANA_RESOURCES" not in myEnvironment:
+    myEnvironment["KATANA_RESOURCES"] = ""
+
+if "PATH" not in myEnvironment:
+    myEnvironment["PATH"]
+
 class katanaLauncher(QWidget):
     def __init__(self):
         super().__init__()
@@ -127,8 +137,19 @@ class katanaLauncher(QWidget):
             print('not loaded!')
     
     def loadDl(self, checked):
+        '''
+        my incredibly naive attempt at getting 3DL to load when the checkbox is checked. I suspect i need to do something
+        in the function that actually launches Katana where it looks at all the check boxes and if any of them are checked,
+        katana launches with all the correct environment variables.
+        '''
         if checked:
-            print('pls hook me up')
+            myEnvironment["KATANA_ROOT"] = os.path.join('C:\\Program File\\Foundry', self.installsDropdown.currentText())
+            myEnvironment["DEFAULT_RENDERER"] = 'dl'
+            myEnvironment["DELIGHT"] = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), '3Delight')
+        
+        # += takes everything that's already in a variable and adds it to the end of the variable
+            myEnvironment["PATH"] += f'{myEnvironment["DELIGHT"]}/bin'
+            myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
         else:
             print('not done yet :sad:')
             
@@ -137,17 +158,7 @@ class katanaLauncher(QWidget):
     def launchSelection(self):
         
         launchKatana = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), 'bin\\katanaBin.exe')
-        
-        # creates a copy of system environment variables
-        myEnvironment = os.environ.copy()
 
-        #creates path and katana_resources if neither exists in the system's environment variables
-        if "KATANA_RESOURCES" not in myEnvironment:
-            myEnvironment["KATANA_RESOURCES"] = ""
-        if "PATH" not in myEnvironment:
-            myEnvironment["PATH"]
-    
-        # same setup as writing a launcher script to load in render plugins
         myEnvironment["KATANA_ROOT"] = os.path.join('C:\\Program File\\Foundry', self.installsDropdown.currentText())
         myEnvironment["DEFAULT_RENDERER"] = 'dl'
         myEnvironment["DELIGHT"] = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), '3Delight')
@@ -155,10 +166,8 @@ class katanaLauncher(QWidget):
         # += takes everything that's already in a variable and adds it to the end of the variable
         myEnvironment["PATH"] += f'{myEnvironment["DELIGHT"]}/bin'
         myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
-
-
-        
-        if self.launchKatana.isCheckable():
+    
+        if self.launchKatana.isCheckable(loadDl):
             subprocess.Popen(launchKatana, env=myEnvironment)
 
 
