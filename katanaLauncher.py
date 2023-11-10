@@ -2,18 +2,9 @@ import sys
 import os
 from os.path import isfile, join
 import subprocess
-from PyQt5.QtWidgets import (QApplication,
-                             QWidget,
-                             QLabel,
-                             QPushButton,
-                             QVBoxLayout,
-                             QComboBox,
-                             QGridLayout
-                             )
+from PyQt5.QtWidgets import *
 
-from PyQt5.QtCore import(Qt,
-                         QDir
-                         )
+from PyQt5.QtCore import *
 
 from PyQt5.QtGui import (QFont,
                          QFontDatabase)
@@ -45,6 +36,22 @@ class katanaLauncher(QWidget):
         self.checkInstalls.setCheckable(True)
         self.checkInstalls.clicked.connect(self.checkInstallsClicked)
 
+        '''
+        checkboxes where you can specify what renderer to launch Katana
+        with. 
+        '''
+        
+        self.useRenderman = QCheckBox('Launch with Renderman', self)
+        self.useRenderman.setGeometry(170, 140, 81, 20)
+        self.useRenderman.stateChanged.connect(self.loadRenderman)
+
+        self.useArnold = QCheckBox('Launch with Arnold', self)
+        self.useArnold.setGeometry(170, 140, 81, 20)
+        self.useArnold.stateChanged.connect(self.loadArnold)
+
+        self.useDelight = QCheckBox('Launch with 3Delight', self)
+        self.useDelight.setGeometry(170, 140, 81, 20)
+        self.useDelight.stateChanged.connect(self.loadDl)
         
         '''
         making the combox that will list all of the currently installed versions
@@ -70,7 +77,10 @@ class katanaLauncher(QWidget):
         '''
         layout.addWidget(self.checkInstalls, 0, 1)
         layout.addWidget(self.installsDropdown, 1, 1, 2, 3)
-        layout.addWidget(self.launchKatana, 2, 3)
+        layout.addWidget(self.useRenderman, 2,1)
+        layout.addWidget(self.useArnold, 2,2)
+        layout.addWidget(self.useDelight, 2,3)
+        layout.addWidget(self.launchKatana, 3, 3)
 
         '''
         packing all of the UI elements into the main window and then laying them 
@@ -104,6 +114,26 @@ class katanaLauncher(QWidget):
             self.installsDropdown.addItems(self.katanaInstalls)
 
 
+    def loadRenderman(self, checked):
+        if checked:
+            print('Loaded!')
+        else:
+            print('not loaded!')
+    
+    def loadArnold(self, checked):
+        if checked:
+            print('Loaded!')
+        else:
+            print('not loaded!')
+    
+    def loadDl(self, checked):
+        if checked:
+            print('pls hook me up')
+        else:
+            print('not done yet :sad:')
+            
+
+        
     def launchSelection(self):
         
         launchKatana = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), 'bin\\katanaBin.exe')
