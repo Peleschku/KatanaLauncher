@@ -293,13 +293,21 @@ class katanaLauncher(QWidget):
         if self.useRenderman.isChecked():
             
             myEnvironment["DEFAULT_RENDERER"] = 'prman'
-
+            
+            # points to renderman proserver
             myEnvironment["RMANTREE"] = os.path.join('C:\\Program Files\\Pixar', self.proserverDropdown.currentText())
+            
+            # points to the actual plugin. plugin path is pointing to the version of prman and katana
+            # selected in the dropdowns in the launcher window.
             myEnvironment["RFKTREE"] = os.path.join('C:\\Program Files\\Pixar', self.prmanVerDropdown.currentText(), 'plugins', self.selectKatanaVerPrman.currentText())
-            myEnvironment["KATANA_RESOURCES"] += f';{["RFKTREE"]}'
-            myEnvironment["PATH"] += f';{["KATANA_ROOT"]}\\bin'
+            
+            myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["RFKTREE"]}'
+            
+            # workaround to fix ImportError with KatanaQueue
+            myEnvironment["PATH"] += f';{myEnvironment["KATANA_ROOT"]}\\bin'
 
-        #print(str(myEnvironment["RFKTREE"]))
+        print(str(myEnvironment["RFKTREE"]))
+        print(str(myEnvironment["RMANTREE"]))
 
 
 
