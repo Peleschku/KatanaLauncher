@@ -179,19 +179,19 @@ class katanaLauncher(QWidget):
     
     def katanaVersionDropdown(self):
         
-        katanaVersions = ['Katana 2.5',
-                          'Katana 2.6',
-                          'Katana 3.0',
-                          'Katana 3.1',
-                          'Katana 3.2',
-                          'Katana 3.5',
-                          'Katana 3.6',
-                          'Katana 4.0',
-                          'Katana 4.5',
-                          'Katana 5.0',
-                          'Katana 6.0',
-                          'Katana 6.5',
-                          'Katana 7.0']
+        katanaVersions = ['katana2.5',
+                          'katana2.6',
+                          'katana3.0',
+                          'katana3.1',
+                          'katana3.2',
+                          'katana3.5',
+                          'katana3.6',
+                          'katana4.0',
+                          'katana4.5',
+                          'katana5.0',
+                          'katana6.0',
+                          'katana6.5',
+                          'katana7.0']
         
         createComboBox = QComboBox()
         createComboBox.addItems(katanaVersions)
@@ -268,6 +268,7 @@ class katanaLauncher(QWidget):
 
         if "PATH" not in myEnvironment:
             myEnvironment["PATH"]
+        
         myEnvironment["KATANA_ROOT"] = os.path.join('C:\\Program File\\Foundry', self.installsDropdown.currentText())
 
     
@@ -277,9 +278,30 @@ class katanaLauncher(QWidget):
             myEnvironment["DELIGHT"] = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), '3Delight')
         
             # += takes everything that's already in a variable and adds it to the end of the variable
-            myEnvironment["PATH"] += f'{myEnvironment["DELIGHT"]}/bin'
+            myEnvironment["PATH"] += f'{myEnvironment["DELIGHT"]}\\bin'
             myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
             print('load DL')
+        
+        if self.useArnold.isChecked():
+            myEnvironment["DEFAULT_RENDERER"] = 'arnold'
+            myEnvironment["KTOA_HOME"] = os.path.join('C:\\Users\\AdelePeleschka\\ktoa', self.specifyArnoldVersion.currentText())
+
+            myEnvironment["PATH"] += f';{myEnvironment["KTOA_HOME"]}\\bin'
+            myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["KTOA_HOME"]}'
+            print('Arnold loaded')
+        
+        if self.useRenderman.isChecked():
+            
+            myEnvironment["DEFAULT_RENDERER"] = 'prman'
+
+            myEnvironment["RMANTREE"] = os.path.join('C:\\Program Files\\Pixar', self.proserverDropdown.currentText())
+            myEnvironment["RFKTREE"] = os.path.join('C:\\Program Files\\Pixar', self.prmanVerDropdown.currentText(), 'plugins', self.selectKatanaVerPrman.currentText())
+            myEnvironment["KATANA_RESOURCES"] += f';{["RFKTREE"]}'
+            myEnvironment["PATH"] += f';{["KATANA_ROOT"]}\\bin'
+
+        #print(str(myEnvironment["RFKTREE"]))
+
+
 
     
         subprocess.Popen(launchKatana, env=myEnvironment)
