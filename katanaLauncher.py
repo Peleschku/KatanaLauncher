@@ -50,28 +50,13 @@ class katanaLauncher(QWidget):
         
         self.specifyArnoldVersion = QComboBox(self.tabs)
 
-        self.whatKatanaTextArnold = QLabel('What version of Katana are you using?', self.tabs)
+        self.arnoldKatanaVer = self.katanaVersionLabel()
         
-        self.selectKatanaVerArnold = QComboBox()
-        self.katanaVersionsArnold = ['Katana 2.5',
-                          'Katana 2.6',
-                          'Katana 3.0',
-                          'Katana 3.1',
-                          'Katana 3.2',
-                          'Katana 3.5',
-                          'Katana 3.6',
-                          'Katana 4.0',
-                          'Katana 4.5',
-                          'Katana 5.0',
-                          'Katana 6.0',
-                          'Katana 6.5',
-                          'Katana 7.0']
-        
-        self.selectKatanaVerArnold.addItems(self.katanaVersionsArnold)
+        self.selectKatanaVerArnold = self.katanaVersionDropdown()
 
         arnoldLayout.addWidget(self.checkArnoldVersion)
         arnoldLayout.addWidget(self.specifyArnoldVersion)
-        arnoldLayout.addWidget(self.whatKatanaTextArnold)
+        arnoldLayout.addWidget(self.arnoldKatanaVer)
         arnoldLayout.addWidget(self.selectKatanaVerArnold)
 
         self.arnoldTab.setLayout(arnoldLayout)
@@ -104,32 +89,16 @@ class katanaLauncher(QWidget):
         self.proserverDropdown = QComboBox()
         self.proserverDropdown.addItems(self.proserverList)
 
-        self.whatKatanaTextPrman = QLabel('What version of Katana are you using?', self.tabs)
+        self.prmanKatanaVer = self.katanaVersionLabel()
         
-        self.selectKatanaVerPrman = QComboBox()
-        self.katanaVersionsPrman = ['Katana 2.5',
-                          'Katana 2.6',
-                          'Katana 3.0',
-                          'Katana 3.1',
-                          'Katana 3.2',
-                          'Katana 3.5',
-                          'Katana 3.6',
-                          'Katana 4.0',
-                          'Katana 4.5',
-                          'Katana 5.0',
-                          'Katana 6.0',
-                          'Katana 6.5',
-                          'Katana 7.0']
-        
-        self.selectKatanaVerPrman.addItems(self.katanaVersionsPrman)
-
+        self.selectKatanaVerPrman = self.katanaVersionDropdown()
 
 
         prmanLayout.addWidget(self.selectPrmanVer, 0,0)
         prmanLayout.addWidget(self.selectProserverVer, 0,1)
         prmanLayout.addWidget(self.prmanVerDropdown, 1,0)
         prmanLayout.addWidget(self.proserverDropdown, 1,1)
-        prmanLayout.addWidget(self.whatKatanaTextPrman, 2, 0, 1 , 2)
+        prmanLayout.addWidget(self.prmanKatanaVer, 2, 0, 1 , 2)
         prmanLayout.addWidget(self.selectKatanaVerPrman, 3, 0, 1, 2)
 
         self.prmanTab.setLayout(prmanLayout)
@@ -202,6 +171,33 @@ class katanaLauncher(QWidget):
         '''
         self.show()
         self.setLayout(layout)
+    
+    def katanaVersionLabel(self):
+        versionLabel = QLabel('What Version of Katana are You Using?')
+        return versionLabel
+
+    
+    def katanaVersionDropdown(self):
+        
+        katanaVersions = ['Katana 2.5',
+                          'Katana 2.6',
+                          'Katana 3.0',
+                          'Katana 3.1',
+                          'Katana 3.2',
+                          'Katana 3.5',
+                          'Katana 3.6',
+                          'Katana 4.0',
+                          'Katana 4.5',
+                          'Katana 5.0',
+                          'Katana 6.0',
+                          'Katana 6.5',
+                          'Katana 7.0']
+        
+        createComboBox = QComboBox()
+        createComboBox.addItems(katanaVersions)
+        
+        return createComboBox
+
     
     def checkInstallsClicked(self):
         '''
