@@ -280,7 +280,6 @@ class katanaLauncher(QWidget):
             # += takes everything that's already in a variable and adds it to the end of the variable
             myEnvironment["PATH"] += f'{myEnvironment["DELIGHT"]}\\bin'
             myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["DELIGHT"]}/3DelightForKatana'
-            print('load DL')
         
         if self.useArnold.isChecked():
             myEnvironment["DEFAULT_RENDERER"] = 'arnold'
@@ -288,7 +287,6 @@ class katanaLauncher(QWidget):
 
             myEnvironment["PATH"] += f';{myEnvironment["KTOA_HOME"]}\\bin'
             myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment["KTOA_HOME"]}'
-            print('Arnold loaded')
         
         if self.useRenderman.isChecked():
             
@@ -305,9 +303,6 @@ class katanaLauncher(QWidget):
             
             # workaround to fix ImportError with KatanaQueue
             myEnvironment["PATH"] += f';{myEnvironment["KATANA_ROOT"]}\\bin'
-
-        print(str(myEnvironment["RFKTREE"]))
-        print(str(myEnvironment["RMANTREE"]))
 
 
 
