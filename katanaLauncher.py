@@ -44,17 +44,17 @@ class katanaLauncher(QWidget):
         '''
         self.arnoldTab = QWidget()
         
-        self.checkArnoldVersion = QPushButton('Check for KtoA Versions', self.tabs)
-        self.checkArnoldVersion.setCheckable(True)
-        self.checkArnoldVersion.clicked.connect(self.displayArnoldTypes)
         
         self.specifyArnoldVersion = QComboBox(self.tabs)
+        
+        checkArnold = os.listdir('C:\\Users\\AdelePeleschka\\ktoa')
+
+        self.specifyArnoldVersion.addItems(checkArnold)
 
         self.arnoldKatanaVer = self.katanaVersionLabel()
         
         self.selectKatanaVerArnold = self.katanaVersionDropdown()
-
-        arnoldLayout.addWidget(self.checkArnoldVersion)
+        
         arnoldLayout.addWidget(self.specifyArnoldVersion)
         arnoldLayout.addWidget(self.arnoldKatanaVer)
         arnoldLayout.addWidget(self.selectKatanaVerArnold)
@@ -112,20 +112,28 @@ class katanaLauncher(QWidget):
 
 
         '''
-        Creating the button that's clicked to check to see what version of 
-        Katana are currently installed on the user's machine
-
-        '''
-        self.checkInstalls = QPushButton('Check for Katana Installs', self)
-        self.checkInstalls.setCheckable(True)
-        self.checkInstalls.clicked.connect(self.checkInstallsClicked)
-
-        '''
         dropdown that lists all the individual versions of Katana that are installed
         in a specific file driectory.
         '''
+        
+        
         self.installsDropdown = QComboBox()
         
+        checkDirectory = os.listdir('C:\Program Files\Foundry')
+        prefix = 'Katana'
+
+        self.katanaInstalls = []
+
+        for k in checkDirectory:
+            if k.startswith(prefix):
+                self.katanaInstalls.append(k)
+            else:
+                continue
+  
+        '''
+        takes the result of the above loop and adds them to the combobox
+        '''
+        self.installsDropdown.addItems(self.katanaInstalls)
         
         '''
         creating the button that launches the version of Katana that was selected
@@ -158,7 +166,6 @@ class katanaLauncher(QWidget):
         indicate the row/column that each widget will be placed in.
         '''
         layout.addWidget(self.tabs, 0, 0, 1, 3)
-        layout.addWidget(self.checkInstalls, 1, 0, 1, 3)
         layout.addWidget(self.installsDropdown, 2, 0, 1, 3)
         layout.addWidget(self.useRenderman, 3,0)
         layout.addWidget(self.useArnold, 3,1)
@@ -197,37 +204,6 @@ class katanaLauncher(QWidget):
         createComboBox.addItems(katanaVersions)
         
         return createComboBox
-
-    
-    def checkInstallsClicked(self):
-        '''
-        realised that there are nuke/modo/mari installs in my directory because 
-        fninstall puts everything in there. This makes sure that ONLY the katana
-        installs are being picked up and added to the combo box/dropdown menu.
-        '''
-        
-        checkDirectory = os.listdir('C:\Program Files\Foundry')
-        prefix = 'Katana'
-
-        self.katanaInstalls = []
-
-        for k in checkDirectory:
-            if k.startswith(prefix):
-                self.katanaInstalls.append(k)
-            else:
-                continue
-  
-        '''
-        takes the result of the above loop and adds them to the combobox
-        '''
-        if self.checkInstalls.isCheckable():
-            self.installsDropdown.addItems(self.katanaInstalls)
-
-    def displayArnoldTypes(self):
-        checkArnold = os.listdir('C:\\Users\\AdelePeleschka\\ktoa')
-
-        if self.checkArnoldVersion.isCheckable():
-            self.specifyArnoldVersion.addItems(checkArnold)
 
     
     def proserverVersions(self):

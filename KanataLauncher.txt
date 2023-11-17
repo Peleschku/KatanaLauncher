@@ -2,3 +2,7 @@
 # press button -> print the list of available Katana installs
 # create a dropdown with all the available builds
 # click a button, and the version selected in the dropdown is launched
+
+# how to make a QTable (2x2 grid)
+# how to write into the values of the table (table of line edits?)
+# how to add and remove columns from table (add and delete last line, THEN specific lines)
