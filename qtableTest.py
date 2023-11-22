@@ -18,7 +18,6 @@ class tableTest(QWidget):
         layout = QGridLayout()
 
         self.data = QTableWidget()
-        self.data.setRowCount(3)
         self.data.setColumnCount(2)
 
         self.data.horizontalHeader().setStretchLastSection(True)
@@ -33,6 +32,8 @@ class tableTest(QWidget):
         self.setVariableValue = QLineEdit()
         self.setVariableValueBttn = QPushButton('Set')
         self.setVariableValueBttn.clicked.connect(self.addVariableValue)
+
+        self.currentRow = -1
 
         layout.addWidget(self.data, 1, 0, 1, 4)
         layout.addWidget(variableName, 2, 0)
@@ -49,12 +50,34 @@ class tableTest(QWidget):
         self.setLayout(layout)
         self.show()
 
-    def addVariableValue(self):
-        
-        print('Variable Value')
-    
     def addVariableName(self):
-        print('Variable Name')
+        nameText = self.setVariableName.text()
+
+        # appends 1 to the current row (prevents values being pasted on top of each other)
+        self.currentRow += 1
+        
+        # if the current row is larger than the rows currently in the table, add a new one 
+        if self.currentRow > self.data.rowCount() -1:
+            self.data.insertRow(self.data.rowCount())
+        
+        # add the text in the QLineEdit to the row that was created in the above if statement
+        self.data.setItem(self.currentRow, 0, QTableWidgetItem(nameText))
+        print(nameText)
+
+    def addVariableValue(self):
+        valueText = self.setVariableValue.text()
+
+        '''
+        self.currentRow += 1
+        
+        if self.currentRow > self.data.rowCount() -1:
+            self.data.insertRow(self.data.rowCount())
+        '''
+        self.data.setItem(self.currentRow, 1, QTableWidgetItem(valueText))
+
+
+        print(valueText)
+    
 
 app = QApplication(sys.argv)
 
