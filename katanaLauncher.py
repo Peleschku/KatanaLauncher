@@ -45,19 +45,16 @@ class katanaLauncher(QWidget):
         self.arnoldTab = QWidget()
         
         
+        self.arnoldLabel = QLabel("Select Arnold Version")
+        self.arnoldLabel.setAlignment(Qt.AlignCenter)
         self.specifyArnoldVersion = QComboBox(self.tabs)
         
         checkArnold = os.listdir('C:\\Users\\AdelePeleschka\\ktoa')
 
         self.specifyArnoldVersion.addItems(checkArnold)
-
-        self.arnoldKatanaVer = self.katanaVersionLabel()
         
-        self.selectKatanaVerArnold = self.katanaVersionDropdown()
-        
+        arnoldLayout.addWidget(self.arnoldLabel)
         arnoldLayout.addWidget(self.specifyArnoldVersion)
-        arnoldLayout.addWidget(self.arnoldKatanaVer)
-        arnoldLayout.addWidget(self.selectKatanaVerArnold)
 
         self.arnoldTab.setLayout(arnoldLayout)
 
@@ -110,13 +107,27 @@ class katanaLauncher(QWidget):
         self.tabs.addTab(self.arnoldTab, 'Arnold')
         self.tabs.addTab(self.prmanTab, 'Renderman')
 
-
+        '''
+        Table that holds all custom environment variables
+        '''
+        self.variablesTable = QTableWidget()
+        self.variablesTable.setRowCount(4)
+        self.variablesTable.setColumnCount(2)
+        
+        
+        # table formatting - first line strecthes the table to the correct size
+        self.variablesTable.horizontalHeader().setStretchLastSection(True)
+        # second line evenly splits the column size across the screen
+        self.variablesTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        
+        
         '''
         dropdown that lists all the individual versions of Katana that are installed
         in a specific file driectory.
         '''
         
-        
+        self.installsLabel = QLabel("Select Katana Version to Launch")
+        self.installsLabel.setAlignment(Qt.AlignCenter)
         self.installsDropdown = QComboBox()
         
         checkDirectory = os.listdir('C:\Program Files\Foundry')
@@ -166,11 +177,13 @@ class katanaLauncher(QWidget):
         indicate the row/column that each widget will be placed in.
         '''
         layout.addWidget(self.tabs, 0, 0, 1, 3)
-        layout.addWidget(self.installsDropdown, 2, 0, 1, 3)
-        layout.addWidget(self.useRenderman, 3,0)
-        layout.addWidget(self.useArnold, 3,1)
-        layout.addWidget(self.useDelight, 3,2)
-        layout.addWidget(self.launchKatana, 4, 0, 1, 3)
+        layout.addWidget(self.variablesTable, 1, 0, 1, 3)
+        layout.addWidget(self.installsLabel, 2, 0, 1, 3)
+        layout.addWidget(self.installsDropdown, 3, 0, 1, 3)
+        layout.addWidget(self.useRenderman, 4,0)
+        layout.addWidget(self.useArnold, 4,1)
+        layout.addWidget(self.useDelight, 4,2)
+        layout.addWidget(self.launchKatana, 5, 0, 1, 3)
 
         '''
         packing all of the UI elements into the main window and then laying them 
