@@ -37,6 +37,9 @@ class tableTest(QWidget):
         self.deleteRowBttn = QPushButton("Delete Selected Row")
         self.deleteRowBttn.clicked.connect(self.deleteSelectedRow)
 
+        self.currentRow = -1
+
+        
         layout.addWidget(self.data, 1, 0, 1, 4)
         layout.addWidget(variableName, 2, 0)
         layout.addWidget(variableValue, 2, 2)
@@ -66,7 +69,7 @@ class tableTest(QWidget):
     def addVariableValue(self):
         valueText = self.setVariableValue.text()
 
-        self.data.setItem(self.currentRow, 1, QTableWidgetItem(valueText))
+        self.data.setItem(self.data.rowCount() - 1, 1, QTableWidgetItem(valueText))
 
 
         print(valueText)

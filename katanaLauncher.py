@@ -49,7 +49,7 @@ class katanaLauncher(QWidget):
         self.arnoldLabel.setAlignment(Qt.AlignCenter)
         self.specifyArnoldVersion = QComboBox(self.tabs)
         
-        checkArnold = os.listdir('C:\\Users\\AdelePeleschka\\ktoa')
+        checkArnold = os.listdir('C:\\Users\\adele\\ktoa')
 
         self.specifyArnoldVersion.addItems(checkArnold)
         
@@ -106,26 +106,35 @@ class katanaLauncher(QWidget):
         '''
         self.tabs.addTab(self.arnoldTab, 'Arnold')
         self.tabs.addTab(self.prmanTab, 'Renderman')
+        
+        '''
+        adds a QTableWidget that can be used to add and delete custom environment
+        variables as katana launches
+        '''
+        self.data = QTableWidget()
+        self.data.setColumnCount(2)
 
-        '''
-        Table that holds all custom environment variables
-        '''
-        self.variablesTable = QTableWidget()
-        self.variablesTable.setRowCount(4)
-        self.variablesTable.setColumnCount(2)
-        
-        
-        # table formatting - first line strecthes the table to the correct size
-        self.variablesTable.horizontalHeader().setStretchLastSection(True)
-        # second line evenly splits the column size across the screen
-        self.variablesTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.data.horizontalHeader().setStretchLastSection(True)
+        self.data.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        variableName = QLabel('Set Variable Name')
+        self.setVariableName = QLineEdit()
+        self.setVariableNameBttn = QPushButton('Set')
+        self.setVariableNameBttn.clicked.connect(self.addVariableName)
+
+        variableValue = QLabel('Set Variable Value')
+        self.setVariableValue = QLineEdit()
+        self.setVariableValueBttn = QPushButton('Set')
+        self.setVariableValueBttn.clicked.connect(self.addVariableValue)
+
+        self.deleteRowBttn = QPushButton("Delete Selected Row")
+        self.deleteRowBttn.clicked.connect(self.deleteSelectedRow)
         
         
         '''
         dropdown that lists all the individual versions of Katana that are installed
         in a specific file driectory.
         '''
-        
         self.installsLabel = QLabel("Select Katana Version to Launch")
         self.installsLabel.setAlignment(Qt.AlignCenter)
         self.installsDropdown = QComboBox()
@@ -177,13 +186,20 @@ class katanaLauncher(QWidget):
         indicate the row/column that each widget will be placed in.
         '''
         layout.addWidget(self.tabs, 0, 0, 1, 3)
-        layout.addWidget(self.variablesTable, 1, 0, 1, 3)
-        layout.addWidget(self.installsLabel, 2, 0, 1, 3)
-        layout.addWidget(self.installsDropdown, 3, 0, 1, 3)
-        layout.addWidget(self.useRenderman, 4,0)
-        layout.addWidget(self.useArnold, 4,1)
-        layout.addWidget(self.useDelight, 4,2)
-        layout.addWidget(self.launchKatana, 5, 0, 1, 3)
+        layout.addWidget(self.data, 1, 0, 1, 3)
+        layout.addWidget(variableName, 2, 0)
+        layout.addWidget(self.setVariableName, 3, 0, 1, 2)
+        layout.addWidget(self.setVariableNameBttn, 3, 2)
+        layout.addWidget(variableValue, 4, 0)
+        layout.addWidget(self.setVariableValue, 5, 0, 1, 2)
+        layout.addWidget(self.setVariableValueBttn, 5, 2)
+        layout.addWidget(self.deleteRowBttn, 6, 0, 1, 3)
+        layout.addWidget(self.installsLabel, 7, 0, 1, 3)
+        layout.addWidget(self.installsDropdown, 8, 0, 1, 3)
+        layout.addWidget(self.useRenderman, 9,0)
+        layout.addWidget(self.useArnold, 9,1)
+        layout.addWidget(self.useDelight, 9,2)
+        layout.addWidget(self.launchKatana, 10, 0, 1, 3)
 
         '''
         packing all of the UI elements into the main window and then laying them 
@@ -244,6 +260,31 @@ class katanaLauncher(QWidget):
             self.useRenderman.setEnabled(False)
         else:
             self.useRenderman.setEnabled(True)
+    
+    def addVariableName(self):
+        
+        nameText = self.setVariableName.text()
+
+        self.data.insertRow(self.data.rowCount())
+        
+        # counts how many rows there are and then -1 to get the index of the row
+        # and not the UI's count of the row (0 indexing and all that)
+        
+        self.data.setItem(self.data.rowCount() - 1, 0, QTableWidgetItem(nameText))
+
+        print(nameText)
+
+    def addVariableValue(self):
+        valueText = self.setVariableValue.text()
+
+        self.data.setItem(self.data.rowCount() - 1, 1, QTableWidgetItem(valueText))
+
+        print(valueText)
+    
+    def deleteSelectedRow(self):
+        selected = self.data.currentRow()
+
+        self.data.removeRow(selected)
 
         
     def launchSelection(self):
