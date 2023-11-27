@@ -4,6 +4,7 @@ from os.path import isfile, join
 import subprocess
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+import json
 
 class tableTest(QWidget):
     def __init__(self):
@@ -33,7 +34,8 @@ class tableTest(QWidget):
         self.setVariableValueBttn = QPushButton('Set')
         self.setVariableValueBttn.clicked.connect(self.addVariableValue)
 
-        self.currentRow = -1
+        self.deleteRowBttn = QPushButton("Delete Selected Row")
+        self.deleteRowBttn.clicked.connect(self.deleteSelectedRow)
 
         layout.addWidget(self.data, 1, 0, 1, 4)
         layout.addWidget(variableName, 2, 0)
@@ -42,41 +44,37 @@ class tableTest(QWidget):
         layout.addWidget(self.setVariableNameBttn, 3, 1)
         layout.addWidget(self.setVariableValue, 3, 2)
         layout.addWidget(self.setVariableValueBttn, 3, 3)
-
-
-
+        layout.addWidget(self.deleteRowBttn, 4, 0, 1, 4)
 
 
         self.setLayout(layout)
         self.show()
 
     def addVariableName(self):
+        
         nameText = self.setVariableName.text()
 
-        # appends 1 to the current row (prevents values being pasted on top of each other)
-        self.currentRow += 1
+        self.data.insertRow(self.data.rowCount())
         
-        # if the current row is larger than the rows currently in the table, add a new one 
-        if self.currentRow > self.data.rowCount() -1:
-            self.data.insertRow(self.data.rowCount())
+        # counts how many rows there are and then -1 to get the index of the row
+        # and not the UI's count of the row (0 indexing and all that)
         
-        # add the text in the QLineEdit to the row that was created in the above if statement
-        self.data.setItem(self.currentRow, 0, QTableWidgetItem(nameText))
+        self.data.setItem(self.data.rowCount() - 1, 0, QTableWidgetItem(nameText))
+
         print(nameText)
 
     def addVariableValue(self):
         valueText = self.setVariableValue.text()
 
-        '''
-        self.currentRow += 1
-        
-        if self.currentRow > self.data.rowCount() -1:
-            self.data.insertRow(self.data.rowCount())
-        '''
         self.data.setItem(self.currentRow, 1, QTableWidgetItem(valueText))
 
 
         print(valueText)
+    
+    def deleteSelectedRow(self):
+        selected = self.data.currentRow()
+
+        self.data.removeRow(selected)
     
 
 app = QApplication(sys.argv)
