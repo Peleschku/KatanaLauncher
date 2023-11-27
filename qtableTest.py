@@ -9,10 +9,32 @@ import json
 class tableTest(QWidget):
     def __init__(self):
         super().__init__()
+        self.path = "variables.json"
         self.createTable()
+        
+    
+    def __del__(self):
+        self.my_env = dict(os.environ)
+        with open(self.path, "w") as env_json: 
+            json.dump(self.my_env , env_json, indent=2)
+        super().__del__(self)
 
     def createTable(self):
 
+        self.my_env = {}
+        if (os.path.exists(self.path)):
+            #print("Found path!")
+
+            with open(self.path) as env_json:
+                self.my_env = json.load(env_json)
+        else:
+            self.my_env = dict(os.environ)
+            with open(self.path, "w") as env_json: 
+                json.dump(self.fmy_env , env_json, indent=2)
+        
+        #print(self.my_env)
+
+            
         self.setGeometry(150, 250, 250, 300)
         self.setWindowTitle('Pls work table')
 
@@ -23,6 +45,13 @@ class tableTest(QWidget):
 
         self.data.horizontalHeader().setStretchLastSection(True)
         self.data.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        for key, value in self.my_env.items():
+            self.data.insertRow(self.data.rowCount())
+            self.data.setItem(self.data.rowCount() - 1, 0, QTableWidgetItem(key))
+            self.data.setItem(self.data.rowCount() - 1, 1, QTableWidgetItem(value))
+        
+
 
         variableName = QLabel('Set Variable Name')
         self.setVariableName = QLineEdit()

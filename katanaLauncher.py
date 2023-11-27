@@ -49,7 +49,7 @@ class katanaLauncher(QWidget):
         self.arnoldLabel.setAlignment(Qt.AlignCenter)
         self.specifyArnoldVersion = QComboBox(self.tabs)
         
-        checkArnold = os.listdir('C:\\Users\\adele\\ktoa')
+        checkArnold = os.listdir('C:\\Users\\AdelePeleschka\\ktoa')
 
         self.specifyArnoldVersion.addItems(checkArnold)
         
