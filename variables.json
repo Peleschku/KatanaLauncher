@@ -3,7 +3,7 @@
   "APPDATA": "C:\\Users\\AdelePeleschka\\AppData\\Roaming",
   "BRB": "C:\\Program Files\\HP\\Sure Click\\bin",
   "BRS": "C:\\Program Files\\HP\\Sure Click\\servers",
-  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\crashpad_11728_NLRKQEENIULROMNI",
+  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\crashpad_25748_HLRDFNGYKQOMLPLH",
   "COMMONPROGRAMFILES": "C:\\Program Files\\Common Files",
   "COMMONPROGRAMFILES(X86)": "C:\\Program Files (x86)\\Common Files",
   "COMMONPROGRAMW6432": "C:\\Program Files\\Common Files",
@@ -17,6 +17,7 @@
   "IGCCSVC_DB": "AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALlEAZKYjlUm5tcpkYdB8WAQAAAACAAAAAAAQZgAAAAEAACAAAAB0hFNXZ2bYDqJ4dgBzBZmsyAKX+3zlpmEfYmiBkfh1HAAAAAAOgAAAAAIAACAAAACScIa2iyZMITXbfc8qsiAr0YPKVkk/vJeEVqYzQNJwI2AAAAA4S/MwQtvL1oOkmiukit6HpU+0uL6A4d0DW3R+ND+tJpARZ0aAOtx9hrj1Jkhfdr7ARdgipDNbPMlGBKz9WYkpDYIm7LmwnEzazen61gJdh1WnhuBqZ5/wUzozRegBJRVAAAAAiDmfABb4rr/2segP2lH22trnezu/h3CHoWD5OwzuXNKF8fKFf3NQSTAruhxIH+bc0QXlVNXxzu1sbNWF+hDP6w==",
   "KATANA_NUKE_EXECUTABLE": "C:\\Program Files\\Nuke14.0v5\\Nuke14.0.exe",
   "LOCALAPPDATA": "C:\\Users\\AdelePeleschka\\AppData\\Local",
+  "LOCAL_GIT_DIRECTORY": "C:\\Users\\AdelePeleschka\\AppData\\Local\\GitHubDesktop\\app-3.3.5\\resources\\app\\git",
   "LOGONSERVER": "\\\\DESKTOP-VNSMBJS",
   "NUMBER_OF_PROCESSORS": "20",
   "ONEDRIVE": "C:\\Users\\AdelePeleschka\\OneDrive",
@@ -35,6 +36,7 @@
   "PROGRAMFILES": "C:\\Program Files",
   "PROGRAMFILES(X86)": "C:\\Program Files (x86)",
   "PROGRAMW6432": "C:\\Program Files",
+  "PROMPT": "$P$G",
   "PSMODULEPATH": "C:\\Users\\AdelePeleschka\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
   "PUBLIC": "C:\\Users\\Public",
   "PYCHARM COMMUNITY EDITION": "C:\\Program Files\\JetBrains\\PyCharm Community Edition 2023.1.4\\bin;",
@@ -52,8 +54,7 @@
   "WINDIR": "C:\\windows",
   "ZES_ENABLE_SYSMAN": "1",
   "__PSLOCKDOWNPOLICY": "0",
-  "LOCAL_GIT_DIRECTORY": "C:\\Users\\AdelePeleschka\\AppData\\Local\\GitHubDesktop\\app-3.3.5\\resources\\app\\git",
-  "PROMPT": "$P$G",
+  "PYTHONSTARTUP": "c:\\Users\\AdelePeleschka\\.vscode\\extensions\\ms-python.python-2023.22.0\\pythonFiles\\pythonrc.py",
   "TERM_PROGRAM": "vscode",
   "TERM_PROGRAM_VERSION": "1.84.2",
   "LANG": "en_US.UTF-8",
@@ -63,6 +64,6 @@
   "VSCODE_GIT_ASKPASS_EXTRA_ARGS": "--ms-enable-electron-run-as-node",
   "VSCODE_GIT_ASKPASS_MAIN": "c:\\Users\\AdelePeleschka\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\extensions\\git\\dist\\askpass-main.js",
   "VSCODE_GIT_IPC_HANDLE": "\\\\.\\pipe\\vscode-git-6a939ab10d-sock",
-  "PYTHONIOENCODING": "UTF-8",
-  "PYTHONUNBUFFERED": "1"
+  "VSCODE_INJECTION": "1",
+  "VSCODE_NONCE": "bcfa2755-712d-4278-82f0-45a9ee9a54e0"
 }
