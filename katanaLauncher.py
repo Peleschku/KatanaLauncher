@@ -20,12 +20,6 @@ class katanaLauncher(QWidget):
         self.path = "variables.json"
         self.createWindow()
     
-    def __del__(self):
-        self.my_env = dict(os.environ.copy())
-        with open(self.path, "w") as env_json: 
-            json.dump(self.my_env , env_json, indent=2)
-        super().__del__(self)
-    
     def createWindow(self):
         
         self.setGeometry(150, 250, 250, 600)
@@ -115,46 +109,6 @@ class katanaLauncher(QWidget):
         self.tabs.addTab(self.arnoldTab, 'Arnold')
         self.tabs.addTab(self.prmanTab, 'Renderman')
         
-        '''
-        adds a QTableWidget that can be used to add and delete custom environment
-        variables as katana launches
-        '''
-        
-        self.my_env = {}
-        if (os.path.exists(self.path)):
-            print("Found path!")
-
-            with open(self.path) as env_json:
-                self.my_env = json.load(env_json)
-        else:
-            self.my_env = dict(os.environ)
-            with open(self.path, "w") as env_json: 
-                json.dump(self.fmy_env , env_json, indent=2)
-        
-        self.data = QTableWidget()
-        self.data.setColumnCount(2)
-
-        self.data.horizontalHeader().setStretchLastSection(True)
-        self.data.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
-        for key, value in self.my_env.items():
-            self.data.insertRow(self.data.rowCount())
-            self.data.setItem(self.data.rowCount() -1, 0, QTableWidgetItem(key))
-            self.data.setItem(self.data.rowCount() -1, 1, QTableWidgetItem(value))
-
-        variableName = QLabel('Set Variable Name')
-        self.setVariableName = QLineEdit()
-        self.setVariableNameBttn = QPushButton('Set')
-        self.setVariableNameBttn.clicked.connect(self.addVariableName)
-
-        variableValue = QLabel('Set Variable Value')
-        self.setVariableValue = QLineEdit()
-        self.setVariableValueBttn = QPushButton('Set')
-        self.setVariableValueBttn.clicked.connect(self.addVariableValue)
-
-        self.deleteRowBttn = QPushButton("Delete Selected Row")
-        self.deleteRowBttn.clicked.connect(self.deleteSelectedRow)
-        
         
         '''
         dropdown that lists all the individual versions of Katana that are installed
@@ -211,14 +165,6 @@ class katanaLauncher(QWidget):
         indicate the row/column that each widget will be placed in.
         '''
         layout.addWidget(self.tabs, 0, 0, 1, 3)
-        layout.addWidget(self.data, 1, 0, 3, 3)
-        layout.addWidget(variableName, 5, 0)
-        layout.addWidget(self.setVariableName, 6, 0, 1, 2)
-        layout.addWidget(self.setVariableNameBttn, 6, 2)
-        layout.addWidget(variableValue, 7, 0)
-        layout.addWidget(self.setVariableValue, 8, 0, 1, 2)
-        layout.addWidget(self.setVariableValueBttn, 8, 2)
-        layout.addWidget(self.deleteRowBttn, 9, 0, 1, 3)
         layout.addWidget(self.installsLabel, 10, 0, 1, 3)
         layout.addWidget(self.installsDropdown, 11, 0, 1, 3)
         layout.addWidget(self.useRenderman, 12,0)
@@ -234,7 +180,7 @@ class katanaLauncher(QWidget):
         self.setLayout(layout)
     
     def katanaVersionLabel(self):
-        versionLabel = QLabel('What Version of Katana are You Using?')
+        versionLabel = QLabel('What Version  Katana are You Using?')
         return versionLabel
 
     
@@ -315,7 +261,7 @@ class katanaLauncher(QWidget):
     def launchSelection(self):
         
         launchKatana = os.path.join('C:\\Program Files\\Foundry', self.installsDropdown.currentText(), 'bin\\katanaBin.exe')
-        self.myEnvironment = os.environ.copy()
+        myEnvironment = os.environ.copy()
 
         #creates path and katana_resources if neither exists in the system's environment variables
         if "KATANA_RESOURCES" not in myEnvironment:
