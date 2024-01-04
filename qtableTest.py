@@ -112,6 +112,7 @@ class tableTest(QWidget):
 
     def saveVariablesOut(self):
       
+            
         keys = []
 
         for keys in self.data:
@@ -126,11 +127,16 @@ class tableTest(QWidget):
             variableItems = self.data.items(-1, 1)
             values.append(variableItems)
         
-        variablesDictionary = dict(zip(keys, values))
-        
 
-        with open('variables.json', 'a') as outfile:
-            json.dump(variablesDictionary, outfile, indent=2)
+        with open('variables.json', 'r') as jsonfile:
+            data = json.load(jsonfile)
+
+        variablesDictionary = dict(zip(keys, values))
+        data.update(variablesDictionary)
+
+        with open('variables.json', 'w') as jsonfile:
+            json.dump(data, jsonfile)
+
 
     
 
