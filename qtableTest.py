@@ -13,12 +13,6 @@ class tableTest(QWidget):
         self.createTable()
         
     
-    def __del__(self):
-        self.my_env = dict(os.environ.copy())
-        with open(self.path, "w") as env_json: 
-            json.dump(self.my_env , env_json, indent=2)
-        super().__del__(self)
-
     def createTable(self):
 
         self.my_env = {}
@@ -46,6 +40,7 @@ class tableTest(QWidget):
 
         self.data.horizontalHeader().setStretchLastSection(True)
         self.data.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        
 
         for self.key, self.value in self.my_env.items():
             self.data.insertRow(self.data.rowCount())
@@ -95,20 +90,48 @@ class tableTest(QWidget):
         
         self.data.setItem(self.data.rowCount() - 1, 0, QTableWidgetItem(nameText))
 
-        print(nameText)
+        with open('variables.json', 'w') as outfile:
+            json.dump(nameText, outfile)
+
+        #print(nameText)
 
     def addVariableValue(self):
         valueText = self.setVariableValue.text()
 
         self.data.setItem(self.data.rowCount() - 1, 1, QTableWidgetItem(valueText))
+        
+        with open('variables.json', 'w') as outfile:
+            json.dump(valueText, outfile)
 
-
-        print(valueText)
+        #print(valueText)
     
     def deleteSelectedRow(self):
         selected = self.data.currentRow()
 
         self.data.removeRow(selected)
+
+    def saveVariablesOut(self):
+      
+        keys = []
+
+        for keys in self.data:
+            nameItems = self.data.items(- 1, 0)
+            keys.append(nameItems.text())
+            
+        print('this is' + keys)
+
+        values = []
+
+        for values in self.data:
+            variableItems = self.data.items(-1, 1)
+            values.append(variableItems)
+        
+        variablesDictionary = dict(zip(keys, values))
+        
+
+        with open('variables.json', 'a') as outfile:
+            json.dump(variablesDictionary, outfile, indent=2)
+
     
 
 app = QApplication(sys.argv)
