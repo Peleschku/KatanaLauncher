@@ -63,6 +63,9 @@ class tableTest(QWidget):
         self.deleteRowBttn = QPushButton("Delete Selected Row")
         self.deleteRowBttn.clicked.connect(self.deleteSelectedRow)
 
+        self.saveVariablesBttn = QPushButton("Save Variables")
+        self.saveVariablesBttn.clicked.connect(self.saveVariablesOut)
+
         self.currentRow = -1
 
         
@@ -74,6 +77,7 @@ class tableTest(QWidget):
         layout.addWidget(self.setVariableValue, 3, 2)
         layout.addWidget(self.setVariableValueBttn, 3, 3)
         layout.addWidget(self.deleteRowBttn, 4, 0, 1, 4)
+        layout.addWidget(self.saveVariablesBttn, 5, 0, 1, 4)
 
 
         self.setLayout(layout)
@@ -90,20 +94,12 @@ class tableTest(QWidget):
         
         self.data.setItem(self.data.rowCount() - 1, 0, QTableWidgetItem(nameText))
 
-        with open('variables.json', 'w') as outfile:
-            json.dump(nameText, outfile)
-
-        #print(nameText)
 
     def addVariableValue(self):
         valueText = self.setVariableValue.text()
 
         self.data.setItem(self.data.rowCount() - 1, 1, QTableWidgetItem(valueText))
         
-        with open('variables.json', 'w') as outfile:
-            json.dump(valueText, outfile)
-
-        #print(valueText)
     
     def deleteSelectedRow(self):
         selected = self.data.currentRow()
@@ -111,32 +107,30 @@ class tableTest(QWidget):
         self.data.removeRow(selected)
 
     def saveVariablesOut(self):
-      
-            
+                  
         keys = []
 
-        for keys in self.data:
-            nameItems = self.data.items(- 1, 0)
+        
+        for keyRows in range(self.data.rowCount()):
+            nameItems = self.data.item(keyRows, 0)
             keys.append(nameItems.text())
             
-        print('this is' + keys)
 
         values = []
 
-        for values in self.data:
-            variableItems = self.data.items(-1, 1)
-            values.append(variableItems)
+        for valueRows in range(self.data.rowCount()):
+            nameItems = self.data.item(valueRows, 1)
+            values.append(nameItems.text())
         
 
-        with open('variables.json', 'r') as jsonfile:
-            data = json.load(jsonfile)
-
         variablesDictionary = dict(zip(keys, values))
-        data.update(variablesDictionary)
+
+        print(variablesDictionary)
+
+
 
         with open('variables.json', 'w') as jsonfile:
-            json.dump(data, jsonfile)
-
+            json.dump(variablesDictionary, jsonfile, indent=2)
 
     
 

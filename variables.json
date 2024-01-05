@@ -1,4 +1,6 @@
 {
-    "Zelda":"calico",
-    "Scully":"fluffy"
+  "hello": "world",
+  "please": "work",
+  "another": "test",
+  "indent": "test"
 }
