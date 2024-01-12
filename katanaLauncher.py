@@ -9,7 +9,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import (QFont,
                          QFontDatabase)
 
-import json
+import qtableTest
 
 
 
@@ -111,6 +111,14 @@ class katanaLauncher(QWidget):
         
         
         '''
+        adding the variables Table setup to the UI
+        
+        '''
+
+        self.customVariables = qtableTest.tableTest()
+        
+        
+        '''
         dropdown that lists all the individual versions of Katana that are installed
         in a specific file driectory.
         '''
@@ -164,13 +172,14 @@ class katanaLauncher(QWidget):
         adding all of the above to the QGrid layout. The numbers after the widget
         indicate the row/column that each widget will be placed in.
         '''
-        layout.addWidget(self.tabs, 0, 0, 1, 3)
-        layout.addWidget(self.installsLabel, 10, 0, 1, 3)
-        layout.addWidget(self.installsDropdown, 11, 0, 1, 3)
-        layout.addWidget(self.useRenderman, 12,0)
-        layout.addWidget(self.useArnold, 12,1)
-        layout.addWidget(self.useDelight, 12,2)
-        layout.addWidget(self.launchKatana, 13, 0, 1, 3)
+        layout.addWidget(self.tabs, 0, 0, 1, 4)
+        layout.addWidget(self.customVariables, 10, 0, 1, 4)
+        layout.addWidget(self.installsLabel, 11, 0, 1, 3)
+        layout.addWidget(self.installsDropdown, 12, 0, 1, 3)
+        layout.addWidget(self.useRenderman, 13,0)
+        layout.addWidget(self.useArnold, 13,1)
+        layout.addWidget(self.useDelight, 13,2)
+        layout.addWidget(self.launchKatana, 14, 0, 1, 3)
 
         '''
         packing all of the UI elements into the main window and then laying them 
@@ -304,6 +313,11 @@ class katanaLauncher(QWidget):
             
             # workaround to fix ImportError with KatanaQueue
             myEnvironment["PATH"] += f';{myEnvironment["KATANA_ROOT"]}\\bin'
+        
+        # looks for the key/values in the variables table and then adds them to path
+            
+            #for variable, value in self.customVariables.my_env.items():
+
 
 
 

@@ -18,8 +18,6 @@ class tableTest(QWidget):
         self.my_env = {}
         
         if (os.path.exists(self.path)):
-            print("Found path!")
-
             with open(self.path) as env_json:
                 self.my_env = json.load(env_json)
         else:
@@ -27,7 +25,6 @@ class tableTest(QWidget):
             with open(self.path, "w") as env_json: 
                 json.dump(self.my_env , env_json, indent=2)
         
-        print(self.my_env)
 
             
         self.setGeometry(150, 250, 250, 300)
@@ -134,8 +131,8 @@ class tableTest(QWidget):
 
     
 
-app = QApplication(sys.argv)
+#app = QApplication(sys.argv)
 
-window = tableTest()
+#window = tableTest()
 
-sys.exit(app.exec_())
+#sys.exit(app.exec_())
