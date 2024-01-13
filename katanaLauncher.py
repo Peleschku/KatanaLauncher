@@ -318,6 +318,7 @@ class katanaLauncher(QWidget):
             
         for key, value in self.customVariables.my_env.items():
             myEnvironment[key] = os.path.join(value)
+            myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment[key]}'
 
 
 
