@@ -317,7 +317,12 @@ class katanaLauncher(QWidget):
         # looks for the key/values in the variables table and then adds them to path
             
         for key, value in self.customVariables.my_env.items():
-            myEnvironment[key] = os.path.join(value)
+
+            if key in myEnvironment:
+                myEnvironment[key] += f';{value}'
+            else:
+                myEnvironment[key] = value
+        
             myEnvironment["KATANA_RESOURCES"] += f';{myEnvironment[key]}'
 
 
