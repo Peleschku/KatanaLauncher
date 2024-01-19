@@ -35,6 +35,15 @@ channelDefine = NodegraphAPI.CreateNode('RenderOutputDefine', layerGroup)
 channelDefine.getParameter('outputName').setValue(channel, 0)
 
 connectTwoNodes(arnoldChannelDefine, channelDefine, 'out', 'input')
+
+channelDefine.getParameter('outputName').setValue(channel, 0)
+channelDefine.checkDynamicParameters()
+
+parameter = channelDefine.getParameter('args.renderSettings.outputs.outputName.rendererSettings.channel.value')
+parameter.setValue(channel, 0)
+parameter.finalizeValue()
+
+
 connectInGroup(channelDefine, layerGroup, 'out')
 
 
